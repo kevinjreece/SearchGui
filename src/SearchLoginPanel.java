@@ -32,10 +32,11 @@ class SearchLoginPanel extends JPanel {
 	};
 	
 	private Map<FieldTitle, JTextField> fieldMap = new HashMap<FieldTitle, JTextField>();
+	private SearchController _control;
 	
-	public SearchLoginPanel() {
-//		setTitle("Search Login");
-//		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+	public SearchLoginPanel(SearchController control) {
+		_control = control;
+		_control.setLpanel(this);
 		
 		setLayout(new GridBagLayout());
 		setBorder(BorderFactory.createCompoundBorder(

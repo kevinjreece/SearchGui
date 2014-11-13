@@ -1,6 +1,9 @@
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -13,9 +16,18 @@ public class SearchGui {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				SearchController control = new SearchController();
+				SearchLoginPanel login = new SearchLoginPanel(control);
 				SearchFrame frame = new SearchFrame(control);
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.setVisible(true);
+				
+				Object[] options = {"Submit", "Cancel"};
+				int result = JOptionPane.showOptionDialog(null, login, "Record Indexer Search",
+								JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+								null, options, options[0]);
+						
+			    if (result == JOptionPane.OK_OPTION) {
+			    	control.validateUser();
+			    }
+				
 			}
 		});
 	}

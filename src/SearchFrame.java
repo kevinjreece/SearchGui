@@ -1,38 +1,58 @@
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
 
 @SuppressWarnings("serial")
 class SearchFrame extends JFrame {
-	
-	private SearchLoginPanel _login;
-	
-	public SearchLoginPanel getLoginPanel() {
-		return _login;
-	}
-	
-	public void setLoginPanel(SearchLoginPanel value) {
-		_login = value;
-	}
+	private SearchController _control;
+	private SearchTextPanel _search;
+	private ProjectSelectPanel _projects;
+	private FieldSelectPanel _fields;
+	private JButton _submit;
+	private DisplayResultPanel _display;
 	
 	public SearchFrame(SearchController control) {
-		_login = new SearchLoginPanel();
-		control.setSFrame(this);
+		_control = control;
+		_control.setSFrame(this);
+		
+		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setMinimumSize(new Dimension(300, 300));
 
-		Object[] options = {"Submit", "Cancel"};
-		int result = JOptionPane.showOptionDialog(null, _login, "Record Indexer Search",
-						JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-						null, options, options[0]);
-				
-	    if (result == JOptionPane.OK_OPTION) {
-			
-	    	control.validateUser();
-	    	
-//	    	for (SearchLoginPanel.FieldTitle field_title : 
-//	    		SearchLoginPanel.FieldTitle.values()) {
-//	    		System.out.printf("%10s: %s%n", field_title.getTitle(),
-//	    				login.getFieldText(field_title));
-//	         }
-	    }
+		_search = new SearchTextPanel(_control);
+		add(_search);
+		
+		_projects = new ProjectSelectPanel(_control);
+		add(_projects);
+		
+		_fields = new FieldSelectPanel(_control);
+		add(_fields);
+		
+		_submit = new JButton("Search");
+		_submit.setAlignmentX(CENTER_ALIGNMENT);
+		_submit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				_control.performSearch();
+			}
+		});
+		add(_submit);
+		
+		_display = new DisplayResultPanel(_control);
+		add(_display);
+		
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+
